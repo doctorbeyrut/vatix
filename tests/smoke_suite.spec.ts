@@ -68,3 +68,23 @@ if (test.info().status !== test.info().expectedStatus)
             });
     });
 });
+
+test.describe(`Reporting incident using additional fields`, () => {
+
+    test(`Reporting Near Miss`, async ({ page }) => {
+        const form = new FormSubmissionPage(page);
+        const successMessage = page.getByRole('heading', { name: 'Incident reported' });
+
+        await form.openSubmissionForm();
+        await form.selectCurrentDate();
+        await form.selectLocation('A2 Yard');
+        await form.selectType('Near Miss');
+        await form.fillDescription();
+        await form.writeNameOfPersonInvolved('Jack Torrance');
+        await form.choosePersonCategory('Contractor');
+        await form.selectCause('Obstruction');
+        await form.submitForm();
+        expect(successMessage).toBeVisible;
+    });
+    
+});

@@ -13,6 +13,7 @@ readonly nameOfPersonInvolved: Locator
 readonly personCategory: Locator
 readonly submit: Locator
 readonly successMessage: Locator
+readonly cause: Locator
 
 constructor ( page: Page ) {
     this.page = page
@@ -26,6 +27,7 @@ constructor ( page: Page ) {
     this.personCategory = page.getByTestId('Person category').getByLabel('toggle dropdown');
     this.submit = page.getByText('Submit');
     this.successMessage = page.getByRole('heading', { name: 'Incident reported' });
+    this.cause = page.getByTestId('Cause of Injury or Near Miss').getByLabel('toggle dropdown');
 }
 
 async openSubmissionForm() {
@@ -56,19 +58,25 @@ async selectType(type: string) {
 }
 
 async fillDescription() {
-    console.log('Writing description')
-    await this.description.fill('A very detailed description of the incident.')
+    console.log('Writing description');
+    await this.description.fill('A very detailed description of the incident.');
 }
 
 async writeNameOfPersonInvolved(name: string) {
-    console.log('Writing name of involved person')
+    console.log('Writing name of involved person');
     await this.nameOfPersonInvolved.fill(name);
 }
 
-async choosePersonCategory(category:string) {
-    const pickCategory = this.page.getByRole('option', { name: category })
+async choosePersonCategory(category: string) {
+    const pickCategory = this.page.getByRole('option', { name: category });
     await this.personCategory.click();
     await pickCategory.click();
+}
+
+async selectCause (cause: string) {
+    const pickCause = this.page.getByRole('option', { name: cause });
+    await this.cause.click();
+    await pickCause.click();
 }
 
 async submitForm() {
